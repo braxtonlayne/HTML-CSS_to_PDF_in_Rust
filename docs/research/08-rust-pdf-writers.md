@@ -339,7 +339,7 @@ Proposed crate split: `recto-paint` (display list, writer-agnostic) and `recto-p
 
 Document-level settings:
 
-- `SerializeSettings { compress_content_streams: true, no_device_cs: <pdfa>, xmp_metadata: true, enable_tagging: true (default on), configuration: Configuration::new_with_validator(..), render_svg_glyph_fn: krilla_svg::render_svg_glyph, .. }`. Exact constructor names in `configure/mod.rs` should be confirmed when coding.
+- `SerializeSettings { compress_content_streams: true, no_device_cs: <pdfa>, xmp_metadata: true, enable_tagging: true (default on), configuration: ConfigurationBuilder::new().with_version(..).with_archival_validator(Archival::A3_B).with_accessibility_validator(Accessibility::UA1).finish()?, render_svg_glyph_fn: krilla_svg::render_svg_glyph, .. }` (`configure/mod.rs:32-68`; `finish()` returns `Result<Configuration, ConfigurationError>`).
 - `Metadata::new().title().language().creation_date(<from input or SOURCE_DATE_EPOCH or omitted>).document_id(<stable hash of template+data or user-supplied>)`. This gives byte-identical output.
 - The `rayon` feature affects only the parallelism of compression and image encoding, not the output bytes.
 
@@ -400,7 +400,6 @@ Document-level settings:
 
 - **UNVERIFIED:** krilla builds and runs on `wasm32-unknown-unknown`. It is not in krilla's CI, and the inference rests on Typst's web app. Test this in our CI.
 - **UNVERIFIED:** printpdf support for blend modes, tiling patterns, overprint, ICC, CMYK images, page labels and named destinations. I did not read deeply because printpdf is rejected on other grounds.
-- **UNVERIFIED:** exact `Configuration` constructor names (`configure/mod.rs`), not read line-by-line. Confirm when coding.
 - The Factur-X requirements (fx namespace URI, property set, AFRelationship per profile) come from secondary vendor docs found by WebSearch. **Verify against the official Factur-X 1.0.07 / ZUGFeRD 2.3 spec** and veraPDF before implementing.
 - Will krilla 0.9 (with forms, PNG passthrough, custom Info fields, and the PDF 2.0 namespace change #450) ship before our v1? Check the sparse index before pinning. A `main` dependency would violate "published crates only".
 - Would upstream accept a streaming-sink and custom-XMP API? Contact the maintainer (LaurenzV) early.
