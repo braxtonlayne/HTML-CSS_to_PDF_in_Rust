@@ -123,7 +123,7 @@ Legend: ✅ supported · ⚠️ partial or with caveats · ❌ absent · (n/a) n
 | ICCBased | ✅ `no_device_cs = true` swaps device spaces for embedded sRGB/sGrey ICC (`serialize.rs` `register_colorspace`). CMYK needs a `cmyk_profile: Option<ICCProfile<4>>` | ✅ | ⚠️ |
 | Separation / spot colors | ✅ `SeparationSpace`, `SeparationColorant` (`graphics/color.rs:428-460`, `graphics/separation.rs`) | ✅ `Separation`, `DeviceN` | **UNVERIFIED** |
 | DeviceN | ❌ (`configure/PDF_A2.md:82`) | ✅ | ? |
-| Output intent | ✅ automatic sRGB OutputIntent `GTS_PDFA1` when a validator requires it (`serialize.rs` `serialize_destination_profiles`) | ✅ `OutputIntent` writer | ✅ (`serialize.rs:118-147`) |
+| Output intent | ✅ automatic sRGB OutputIntent (subtype chosen per PDF/A part by `Archival::output_intent`, `validate.rs:894`) when a PDF/A validator is set (`serialize.rs` `serialize_destination_profiles`) | ✅ `OutputIntent` writer | ✅ (`serialize.rs:118-147`) |
 
 ### 2.5 Navigation, interactivity, metadata
 
